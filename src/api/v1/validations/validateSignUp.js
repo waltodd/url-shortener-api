@@ -1,6 +1,7 @@
 
 checkLengthUsernameOrPassword =  async (req, res, next) => {
     // nome do usuário 3 letras minimo
+    console.log(req.body.name);
     if(req.body.name.length < 3) {
       return res.status(400).send({
           message: "O nome minimo 3 letras!"

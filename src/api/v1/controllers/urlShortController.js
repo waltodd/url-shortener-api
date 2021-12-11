@@ -29,8 +29,9 @@ exports.create = async  (req, res) => {
     
   // Salvar url na db
   await Url.create(url)
-    .then(data => {
-      res.send(data);
+    .then(url => {
+      res.send(url);
+
     })
     .catch(err => {
       res.status(500).send({

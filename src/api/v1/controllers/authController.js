@@ -17,7 +17,10 @@ exports.signup =  async(req, res) => {
       password: bcrypt.hashSync(req.body.password, 8)
     }
     await User.create(info);
-    res.send(info);
+    res.status(200).json({
+      "message": "Usuário criado com successo!",
+      "user": info
+    });
 
 };
 
@@ -27,9 +30,9 @@ exports.signin = async (req, res) => {
   }})
 
     if (!user) {
-        return res.status(404).send({ message: "Usuário ou senha inválida." });
+        return res.send({ message: "Usuário ou senha inválida." });
     }
-
+    console.log(user);
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
