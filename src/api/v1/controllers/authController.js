@@ -19,7 +19,8 @@ exports.signup =  async(req, res) => {
     await User.create(info);
     res.status(200).json({
       "message": "Usuário criado com successo!",
-      "user": info
+      "user": info,
+      success: true
     });
 
 };
@@ -30,7 +31,7 @@ exports.signin = async (req, res) => {
   }})
 
     if (!user) {
-        return res.send({ message: "Usuário ou senha inválida." });
+        return res.status(400).send({ message: "Usuário ou senha inválida.",success: false });
     }
     console.log(user);
       var passwordIsValid = bcrypt.compareSync(
@@ -41,19 +42,23 @@ exports.signin = async (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Usuário ou senha inválida."
+          message: "Usuário ou senha inválida.",
+          success: false
         });
       }
 
-      var token = jwt.sign({ uuid: user.uuid }, config.secret, {
-        expiresIn: 8400 // 24 hours
-      });
+      var token = jwt.sign({ uuid: user.uuid }, config.secret);
 
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      })
       res.status(200).send({
         uuid: user._id,
         username: user.username,
         email: user.email,
-        accessToken: token
+        accessToken: token,
+        
       });
 };
 

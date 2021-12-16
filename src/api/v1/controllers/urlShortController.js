@@ -4,6 +4,7 @@ const User = db.user;
 const Op = db.Sequelize.Op;
 const config = require("../../../config/authConfig");
 const jwt = require("jsonwebtoken");
+const cookieParser = require('cookie-parser')
 
 // Criar uma url
 exports.create = async  (req, res) => {
@@ -20,7 +21,6 @@ exports.create = async  (req, res) => {
     const userInfo = jwt.decode(token, secret);
     
     const { uuid } = userInfo || {};
-
     // Criar a Url
     const url = {
       full: req.body.full,
@@ -57,10 +57,12 @@ exports.findAllUrlUserNotAuth = async (req, res) => {
 exports.findAllUrlUserAuth = async (req, res) => {
 
   const {secret} = config;
-    const token = req.headers['x-access-token']
-    const userInfo = jwt.decode(token, secret);
+  const token = req.headers['x-access-token']
+  const userInfo = jwt.decode(token, secret);
+
+  console.log(userInfo)
     
-    const { uuid } = userInfo || {};
+  const { uuid } = userInfo;
   await Url.findAll({where: {userUuid:uuid}})
   .then((data) => {
     res.send(data);
