@@ -19,8 +19,6 @@ exports.signup =  async(req, res) => {
     await User.create(info);
     res.status(200).json({
       "message": "Usuário criado com successo!",
-      "user": info,
-      success: true
     });
 
 };
@@ -54,9 +52,7 @@ exports.signin = async (req, res) => {
         secure: process.env.NODE_ENV === "production",
       })
       res.status(200).send({
-        uuid: user._id,
-        username: user.username,
-        email: user.email,
+        message: "seja benvido",
         accessToken: token,
         
       });

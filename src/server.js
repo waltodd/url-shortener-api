@@ -4,13 +4,13 @@ const cors = require("cors");
 const app = express();
 const cookieParser = require('cookie-parser')
 app.use(cookieParser());
+
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200
 };
 
-app.use(cors({
-  credentials: 'include'
-}));
+app.use(cors());
 
 
 // parse requests of content-type - application/json
@@ -30,7 +30,7 @@ db.sequelize.sync({
   console.log('Drop and Resync Db');
 });
 
-
+app.options('*', cors()) // include before other routes
 // simple route
 const authRoute = require('../src/api/v1/routes/authRoute');
 const userRoute = require('../src/api/v1/routes/userRoute')
