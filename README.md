@@ -1,6 +1,13 @@
 # url-shortener-api
 
 Authentication Node js Express Jwt Mysql Sequelize
+
+## Project setup
+```
+npm install
+
+
+
  
 "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
